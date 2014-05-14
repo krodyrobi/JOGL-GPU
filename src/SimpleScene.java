@@ -6,24 +6,53 @@ import javax.media.opengl.awt.GLCanvas;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
-public class SimpleScene extends ATestCase {
+public class SimpleScene implements GLEventListener {
 
     private double theta = 0;
     private double s = 0;
     private double c = 0;
     private FPSCounter fpsCounter;
 
+    public static void main(String[] args) throws IOException {
+//        GLProfile glp = GLProfile.getDefault();
+//        GLCapabilities caps = new GLCapabilities(glp);
+//
+//
+//        GLCanvas canvas = new GLCanvas(caps);
+//        Frame frame = new Frame("AWT Window Test");
+//        frame.setSize(300, 300);
+//        frame.add(canvas);
+//        frame.setVisible(true);
+//
+//        frame.addWindowListener(new WindowAdapter() {
+//            public void windowClosing(WindowEvent e) {
+//                System.exit(0);
+//            }
+//        });
+//
+//        canvas.addGLEventListener(new SimpleScene());
+//
+//        Animator animator = new Animator();
+//        animator.add(canvas);
+//        animator.start();
+//
+     //new gui();
+        new BenchGUI();
+    }
 
+    @Override
     public void display(GLAutoDrawable drawable) {
         update();
         render(drawable);
     }
 
+    @Override
+    public void dispose(GLAutoDrawable drawable) {
+    }
 
-    public void dispose(GLAutoDrawable drawable) {}
-
-
+    @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
 
@@ -48,8 +77,9 @@ public class SimpleScene extends ATestCase {
         */
     }
 
-
-    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {}
+    @Override
+    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
+    }
 
     private void update() {
         theta += 0.01;
@@ -74,6 +104,5 @@ public class SimpleScene extends ATestCase {
         gl.glEnd();
 
         fpsCounter.draw();
-        result = "" + fpsCounter.getAvgFps();
     }
 }
