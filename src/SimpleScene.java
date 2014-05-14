@@ -7,48 +7,23 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class SimpleScene implements GLEventListener {
+public class SimpleScene extends ATestCase {
 
     private double theta = 0;
     private double s = 0;
     private double c = 0;
     private FPSCounter fpsCounter;
 
-    public static void main(String[] args) {
-        GLProfile glp = GLProfile.getDefault();
-        GLCapabilities caps = new GLCapabilities(glp);
 
-
-        GLCanvas canvas = new GLCanvas(caps);
-        Frame frame = new Frame("AWT Window Test");
-        frame.setSize(300, 300);
-        frame.add(canvas);
-        frame.setVisible(true);
-
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-
-        canvas.addGLEventListener(new SimpleScene());
-
-        Animator animator = new Animator();
-        animator.add(canvas);
-        animator.start();
-    }
-
-    @Override
     public void display(GLAutoDrawable drawable) {
         update();
         render(drawable);
     }
 
-    @Override
-    public void dispose(GLAutoDrawable drawable) {
-    }
 
-    @Override
+    public void dispose(GLAutoDrawable drawable) {}
+
+
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
 
@@ -73,9 +48,8 @@ public class SimpleScene implements GLEventListener {
         */
     }
 
-    @Override
-    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-    }
+
+    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {}
 
     private void update() {
         theta += 0.01;
@@ -100,5 +74,6 @@ public class SimpleScene implements GLEventListener {
         gl.glEnd();
 
         fpsCounter.draw();
+        result = "" + fpsCounter.getAvgFps();
     }
 }
