@@ -23,6 +23,8 @@ public class FPSCounter {
     private int fpsHeight;
     private int fpsOffset;
 
+    private double avgFps;
+
 
     public FPSCounter(GLAutoDrawable drawable, int textSize) throws GLException {
         this(drawable, new Font("SansSerif", Font.BOLD, textSize));
@@ -61,6 +63,7 @@ public class FPSCounter {
         double fps = drawable.getAnimator().getLastFPS();
         recomputeFPSSize((float) fps);
 
+        avgFps = (((avgFps == 0.f) ? fps : avgFps) + fps ) / 2;
         String fpsText = "FPS: " + format.format(fps);
 
         renderer.beginRendering(drawable.getWidth(), drawable.getHeight());
@@ -120,5 +123,9 @@ public class FPSCounter {
 
             this.fpsMagnitude = fpsMagnitude;
         }
+    }
+
+    public double getAvgFps() {
+        return avgFps;
     }
 }

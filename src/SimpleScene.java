@@ -1,14 +1,7 @@
-
-import com.jogamp.opengl.util.Animator;
-
 import javax.media.opengl.*;
-import javax.media.opengl.awt.GLCanvas;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-public class SimpleScene implements GLEventListener {
+public class SimpleScene extends ATestCase {
 
     private double theta = 0;
     private double s = 0;
@@ -104,5 +97,6 @@ public class SimpleScene implements GLEventListener {
         gl.glEnd();
 
         fpsCounter.draw();
+        result = "" + fpsCounter.getAvgFps();
     }
 }
