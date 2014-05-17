@@ -42,7 +42,6 @@ public class Tester {
                     @Override
                     public void run() {
                         stopAnimator();
-                        System.out.println(testCase.getResult());
                         System.exit(0);
                     }
                 }.start();
