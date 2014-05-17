@@ -15,32 +15,32 @@ public class SimpleScene implements GLEventListener {
     private double c = 0;
     private FPSCounter fpsCounter;
 
-    public static void main(String[] args) throws IOException {
-//        GLProfile glp = GLProfile.getDefault();
-//        GLCapabilities caps = new GLCapabilities(glp);
-//
-//
-//        GLCanvas canvas = new GLCanvas(caps);
-//        Frame frame = new Frame("AWT Window Test");
-//        frame.setSize(300, 300);
-//        frame.add(canvas);
-//        frame.setVisible(true);
-//
-//        frame.addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                System.exit(0);
-//            }
-//        });
-//
-//        canvas.addGLEventListener(new SimpleScene());
-//
-//        Animator animator = new Animator();
-//        animator.add(canvas);
-//        animator.start();
-//
-     //new gui();
-        new BenchGUI();
-    }
+//    public static void main(String[] args) throws IOException {
+////        GLProfile glp = GLProfile.getDefault();
+////        GLCapabilities caps = new GLCapabilities(glp);
+////
+////
+////        GLCanvas canvas = new GLCanvas(caps);
+////        Frame frame = new Frame("AWT Window Test");
+////        frame.setSize(300, 300);
+////        frame.add(canvas);
+////        frame.setVisible(true);
+////
+////        frame.addWindowListener(new WindowAdapter() {
+////            public void windowClosing(WindowEvent e) {
+////                System.exit(0);
+////            }
+////        });
+////
+////        canvas.addGLEventListener(new SimpleScene());
+////
+////        Animator animator = new Animator();
+////        animator.add(canvas);
+////        animator.start();
+////
+//     //new gui();
+//       // new BenchGUI();
+//    }
 
     @Override
     public void display(GLAutoDrawable drawable) {
