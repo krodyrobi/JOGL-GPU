@@ -1,8 +1,11 @@
+package tests;
+
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
-abstract class ATestCase implements GLEventListener, Benchmark {
+public abstract class ATestCase implements GLEventListener, Benchmark {
     protected String result;
+    public Tester tester;
 
     public String getResult() {
         return result;

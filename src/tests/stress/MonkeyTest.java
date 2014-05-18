@@ -1,11 +1,14 @@
+package tests.stress;
+
 import com.jogamp.common.nio.Buffers;
 import lib.joglutils.model.ModelFactory;
 import lib.joglutils.model.ModelLoadException;
-import lib.joglutils.model.DisplayListRenderer;
 import lib.joglutils.model.geometry.Mesh;
 import lib.joglutils.model.geometry.Model;
 import lib.joglutils.model.geometry.Vec4;
-import lib.joglutils.model.iModel3DRenderer;
+import tests.ATestCase;
+import tests.Tester;
+import utils.FPSCounter;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
@@ -14,7 +17,6 @@ import javax.media.opengl.glu.GLU;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.rmi.activation.Activator;
 
 public class MonkeyTest extends ATestCase {
 
@@ -30,6 +32,9 @@ public class MonkeyTest extends ATestCase {
 
     private int[] aiVertexBufferIndices = new int[] {-1};
 
+    public MonkeyTest(Tester tester) {
+        this.tester = tester;
+    }
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -115,8 +120,9 @@ public class MonkeyTest extends ATestCase {
         gl.glPolygonMode( GL.GL_FRONT, GL2.GL_FILL );
         gl.glDrawArrays( GL2.GL_TRIANGLES, 0, model.getMesh(0).vertices.length );
 
-        fpsCounter.draw();
+        //fpsCounter.draw();
         result = "" + fpsCounter.getAvgFps();
+        tester.setTitle("FPS: " + fpsCounter.getAvgFps() + " tri: " + model.getMesh(0).faces.length);
     }
     private void update(GLAutoDrawable drawable) {
 

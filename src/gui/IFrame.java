@@ -1,4 +1,4 @@
-/**
+package gui; /**
  * Created by Bodecrysis on 11/05/2014.
  */
 /*Background image frame Module*/

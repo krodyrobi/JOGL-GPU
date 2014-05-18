@@ -1,4 +1,8 @@
+package tests.simple;
+
 import javax.media.opengl.*;
+import tests.ATestCase;
+import utils.FPSCounter;
 
 public class SimpleScene extends ATestCase {
 
@@ -7,17 +11,17 @@ public class SimpleScene extends ATestCase {
     private double c = 0;
     private FPSCounter fpsCounter;
 
-    @Override
+
     public void display(GLAutoDrawable drawable) {
         update();
         render(drawable);
     }
 
-    @Override
+
     public void dispose(GLAutoDrawable drawable) {
     }
 
-    @Override
+
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
 
@@ -27,19 +31,6 @@ public class SimpleScene extends ATestCase {
         //make fps counter update every 20 frames
         drawable.getAnimator().setUpdateFPSFrames(20, null);
         fpsCounter = new FPSCounter(drawable, 12);
-
-        /*
-        //TODO LOAD RIGHT FILES HERE
-        final ShaderCode vp0 = ShaderCode.create(gl2, GL2ES2.GL_VERTEX_SHADER, this.getClass(), "shader", "shader/bin", "RedSquareShader", true);
-        final ShaderCode fp0 = ShaderCode.create(gl2, GL2ES2.GL_FRAGMENT_SHADER, this.getClass(), "shader", "shader/bin", "RedSquareShader", true);
-
-        vp0.defaultShaderCustomization(gl2, true, true);
-        fp0.defaultShaderCustomization(gl2, true, true);
-
-        final ShaderProgram sp0 = new ShaderProgram();
-        sp0.add(gl2, vp0, System.err);
-        sp0.add(gl2, fp0, System.err);
-        */
     }
 
     @Override
@@ -70,5 +61,7 @@ public class SimpleScene extends ATestCase {
 
         fpsCounter.draw();
         result = "" + fpsCounter.getAvgFps();
+
+        gl.glFlush();
     }
 }

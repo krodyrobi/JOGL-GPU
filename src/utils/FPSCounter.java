@@ -1,5 +1,9 @@
+package utils;
+
+import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 
+import javax.media.opengl.GLAnimatorControl;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLException;
 import java.awt.*;
@@ -22,8 +26,6 @@ public class FPSCounter {
     private int fpsWidth;
     private int fpsHeight;
     private int fpsOffset;
-
-    private double avgFps;
 
 
     public FPSCounter(GLAutoDrawable drawable, int textSize) throws GLException {
@@ -63,7 +65,6 @@ public class FPSCounter {
         double fps = drawable.getAnimator().getLastFPS();
         recomputeFPSSize((float) fps);
 
-        avgFps = (((avgFps == 0.f) ? fps : avgFps) + fps ) / 2;
         String fpsText = "FPS: " + format.format(fps);
 
         renderer.beginRendering(drawable.getWidth(), drawable.getHeight());
@@ -126,6 +127,8 @@ public class FPSCounter {
     }
 
     public double getAvgFps() {
-        return avgFps;
+        GLAnimatorControl anim = drawable.getAnimator();
+
+        return anim.getTotalFPS();
     }
 }

@@ -1,3 +1,5 @@
+package tests;
+
 import com.jogamp.opengl.util.Animator;
 
 import javax.media.opengl.GLCapabilities;
@@ -9,28 +11,21 @@ import java.awt.event.WindowEvent;
 
 public class Tester {
     private ATestCase testCase;
-//    private Ui mainScreen;
 
     private GLCanvas canvas;
     private Animator animator;
+    private Frame frame;
 
-
-    //TODO make a reference to the main result screen
-    public Tester(/*Ui mainScreen,*/ ATestCase testCase) {
-//        this.mainScreen = mainScreen;
-        this.testCase = testCase;
-
+    public Tester() {
         GLProfile glp = GLProfile.getDefault();
         GLCapabilities caps = new GLCapabilities(glp);
 
 
         canvas = new GLCanvas(caps);
-        Frame frame = new Frame("AWT Window Test");
-        frame.setSize(300, 300);
+        frame = new Frame("JOGL GPU BENCHMARK");
+        frame.setSize(500, 500);
         frame.add(canvas);
         frame.setVisible(true);
-
-        canvas.addGLEventListener(testCase);
 
         animator = new Animator();
         animator.add(canvas);
@@ -47,6 +42,10 @@ public class Tester {
                 }.start();
             }
         });
+    }
+
+    public void setTitle(String s) {
+        frame.setTitle(s);
     }
 
     private void stopAnimator() {

@@ -1,3 +1,5 @@
+package utils;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import java.io.BufferedReader;
@@ -8,7 +10,7 @@ import java.nio.IntBuffer;
 
 
 //TODO SEE IF NEEDED
-class ShaderControl {
+public class ShaderControl {
     private int shaderprogram;
     public String[] vsrc;
     public String[] fsrc;
