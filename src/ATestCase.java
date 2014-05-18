@@ -11,5 +11,5 @@ abstract class ATestCase implements GLEventListener, Benchmark {
     public abstract void init(GLAutoDrawable glAutoDrawable);
     public abstract void dispose(GLAutoDrawable glAutoDrawable);
     public abstract void display(GLAutoDrawable glAutoDrawable);
-    public abstract void reshape(GLAutoDrawable glAutoDrawable, int i, int i2, int i3, int i4);
+    public abstract void reshape(GLAutoDrawable glAutoDrawable, int x, int y, int width, int height);
 }

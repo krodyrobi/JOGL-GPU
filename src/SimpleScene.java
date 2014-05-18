@@ -1,5 +1,4 @@
 import javax.media.opengl.*;
-import java.io.IOException;
 
 public class SimpleScene extends ATestCase {
 
