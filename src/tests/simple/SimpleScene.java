@@ -27,6 +27,7 @@ public class SimpleScene extends ATestCase implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
 
+        System.out.println("Loaded simple test");
         //Remove innate frameRate cap VSync
         gl2.setSwapInterval(0);
 

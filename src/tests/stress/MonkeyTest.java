@@ -84,6 +84,7 @@ public class MonkeyTest extends ATestCase {
         //make fps counter update every 20 frames
         drawable.getAnimator().setUpdateFPSFrames(20, null);
         fpsCounter = new FPSCounter(drawable, 12);
+        System.out.println("Loaded monkey test");
     }
 
 

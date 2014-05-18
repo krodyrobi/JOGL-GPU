@@ -48,6 +48,7 @@ public class MandelbrotJOGL extends ATestCase {
 
         fpsCounter = new FPSCounter(drawable, 12);
         anim.start();
+        System.out.println("Loaded mandelbrot test");
     }
 
     @Override
