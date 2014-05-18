@@ -16,7 +16,7 @@ public class Tester {
 
 
     //TODO make a reference to the main result screen
-    public Tester(/*Ui mainScreen,*/ final ATestCase testCase) {
+    public Tester(/*Ui mainScreen,*/ ATestCase testCase) {
 //        this.mainScreen = mainScreen;
         this.testCase = testCase;
 
