@@ -6,16 +6,11 @@ import tests.mandelbrot.MandelbrotJOGL;
 import tests.simple.SimpleScene;
 import tests.stress.MonkeyTest;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.GridLayout;
-import javax.swing.JPanel;
 import java.awt.SystemColor;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import java.awt.Font;
 import java.io.*;
 import java.util.ArrayList;
@@ -26,6 +21,9 @@ public class Gui {
 
     protected JFrame frmUptGpuBenchmark;
 
+    private JTextArea textArea = new JTextArea();
+    private JTextArea textArea_1 = new JTextArea();
+    private JTextArea textArea_2 = new JTextArea();
     /**
      * Launch the application.
      */
@@ -69,15 +67,15 @@ public class Gui {
         label_3.setBounds(20, 88, 64, 14);
         panel_1.add(label_3);
 
-        final JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setBounds(94, 38, 157, 16);
         panel_1.add(textArea);
 
-        final JTextArea textArea_1 = new JTextArea();
+        textArea_1 = new JTextArea();
         textArea_1.setBounds(94, 63, 157, 16);
         panel_1.add(textArea_1);
 
-        final JTextArea textArea_2 = new JTextArea();
+        textArea_2 = new JTextArea();
         textArea_2.setBounds(94, 88, 157, 16);
         panel_1.add(textArea_2);
 
@@ -98,24 +96,15 @@ public class Gui {
         btnTest1.setBounds(57, 81, 76, 23);
         btnTest1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Tester tester = new Tester();
+                Tester tester = new Tester(Gui.this);
 
-                tester.addTestCase(new SimpleScene());
-                tester.addTestCase(new MandelbrotJOGL(tester));
-                tester.addTestCase(new MonkeyTest(tester));
+                tester.addTest(new SimpleScene());
+                tester.addTest(new MandelbrotJOGL(tester));
+                tester.addTest(new MonkeyTest(tester));
 
                 List<String> results = new ArrayList<String>(3);
-                try {
-                    //results = tester.run(20000);
-                    results = tester.run(2000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
 
-                System.out.println(results);
-//                textArea.setText(results.get(0));
-//                textArea_1.setText(results.get(1));
-//                textArea_2.setText(results.get(2));
+                tester.run(5000);
             }
         });
         panel.setLayout(null);
@@ -201,5 +190,11 @@ public class Gui {
         panel.add(lblUptGpuBenchmark);
 
         frmUptGpuBenchmark.setVisible(true);
+    }
+
+    public void setResults(List<String> results) {
+        textArea.setText(results.get(0));
+        textArea_1.setText(results.get(1));
+        textArea_2.setText(results.get(2));
     }
 }

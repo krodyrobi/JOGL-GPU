@@ -1,5 +1,6 @@
 package tests.stress;
 
+import com.jogamp.opengl.util.Animator;
 import lib.joglutils.model.DisplayListRenderer;
 import lib.joglutils.model.ModelFactory;
 import lib.joglutils.model.ModelLoadException;
@@ -9,12 +10,17 @@ import tests.ATestCase;
 import tests.Tester;
 import utils.FPSCounter;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.*;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MonkeyTest extends ATestCase {
+    private  GLCanvas canvas;
+    private  Frame frame;
+    private  Animator animator;
 
     //private ObjImpScene scene;
     private FPSCounter fpsCounter;
@@ -116,7 +122,7 @@ public class MonkeyTest extends ATestCase {
 
         //fpsCounter.draw();
         result = "" + fpsCounter.getAvgFps();
-        tester.setTitle("FPS: " + fpsCounter.getAvgFps() + " tri: " + model.getMesh(0).faces.length);
+        frame.setTitle("FPS: " + fpsCounter.getAvgFps() + " tri: " + model.getMesh(0).faces.length);
     }
 
     private void update(GLAutoDrawable drawable) {
@@ -137,5 +143,52 @@ public class MonkeyTest extends ATestCase {
         gl.glOrtho(-1, 1, -1, 1, -50, 50);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
+    }
+
+
+    public void run(final Tester tester) {
+        GLProfile glp = GLProfile.getDefault();
+        GLCapabilities caps = new GLCapabilities(glp);
+
+        canvas = new GLCanvas(caps);
+        frame = new Frame("JOGL GPU BENCHMARK");
+        frame.setSize(500, 500);
+        frame.add(canvas);
+
+
+
+        animator = new Animator();
+        animator.add(canvas);
+
+        canvas.addGLEventListener(this);
+        frame.setVisible(true);
+        animator.start();
+
+
+
+        System.out.println("Simplescene");
+
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        animator.stop();
+                        System.exit(0);
+                    }
+                }.start();
+            }
+        });
+    }
+
+    public void dispose() {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                animator.stop();
+                frame.dispose();
+            }
+        }).start();
     }
 }

@@ -1,16 +1,33 @@
 package tests.simple;
 
 import javax.media.opengl.*;
+import javax.media.opengl.awt.GLCanvas;
+
+import com.jogamp.opengl.util.Animator;
 import tests.ATestCase;
+import tests.Tester;
 import utils.FPSCounter;
+
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.geom.Arc2D;
 
 
 public class SimpleScene extends ATestCase implements GLEventListener {
+
+    private GLCanvas canvas;
+    private Frame frame;
+    private Animator animator;
 
     private double theta = 0;
     private double s = 0;
     private double c = 0;
     private FPSCounter fpsCounter;
+
+    public SimpleScene() {
+
+    }
 
     @Override
     public void display(GLAutoDrawable drawable) {
@@ -26,6 +43,7 @@ public class SimpleScene extends ATestCase implements GLEventListener {
     @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
+        System.out.println("init");
 
         System.out.println("Loaded simple test");
         //Remove innate frameRate cap VSync
@@ -66,5 +84,49 @@ public class SimpleScene extends ATestCase implements GLEventListener {
         result = "" + fpsCounter.getAvgFps();
 
         gl.glFlush();
+    }
+
+
+
+    public void run(final Tester tester) {
+        GLProfile glp = GLProfile.getDefault();
+        GLCapabilities caps = new GLCapabilities(glp);
+
+        canvas = new GLCanvas(caps);
+        frame = new Frame("JOGL GPU BENCHMARK");
+        frame.setSize(500, 500);
+        frame.add(canvas);
+
+        animator = new Animator();
+        animator.add(canvas);
+
+        canvas.addGLEventListener(this);
+        frame.setVisible(true);
+        animator.start();
+
+        System.out.println("Simplescene");
+
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        animator.stop();
+                        System.exit(0);
+                    }
+                }.start();
+            }
+        });
+    }
+
+    public void dispose() {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                animator.stop();
+                frame.dispose();
+            }
+        }).start();
     }
 }

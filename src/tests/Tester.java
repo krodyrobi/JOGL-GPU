@@ -1,113 +1,63 @@
 package tests;
 
-import com.jogamp.opengl.util.Animator;
-import tests.simple.SimpleScene;
+import gui.Gui;
 
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLProfile;
-import javax.media.opengl.awt.GLCanvas;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tester {
-    private ATestCase testCase;
     private List<ATestCase> tests;
+    private int index;
+    private List<String> results;
+    private Gui gui;
 
-    private GLCanvas canvas;
-    private Animator animator;
-    private Frame frame;
-
-    public Tester() {
-        GLProfile glp = GLProfile.getDefault();
-        GLCapabilities caps = new GLCapabilities(glp);
+    public Tester(Gui gui) {
         tests = new ArrayList<ATestCase>();
-
-        canvas = new GLCanvas(caps);
-        frame = new Frame("JOGL GPU BENCHMARK");
-        frame.setSize(500, 500);
-        frame.add(canvas);
-        frame.setVisible(true);
-
-        animator = new Animator();
-        animator.add(canvas);
-
-        animator.start();
-
-
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        stopAnimator();
-                        System.exit(0);
-                    }
-                }.start();
-            }
-        });
+        results = new ArrayList<String>();
+        index = -1;
+        this.gui = gui;
     }
 
-    public void setTitle(String s) {
-        frame.setTitle(s);
-    }
-
-    private void stopAnimator() {
-        animator.stop();
-    }
-
-    public void changeTestCase(ATestCase newTest) {
-        //animator.stop();
-        canvas.removeGLEventListener(testCase);
-        canvas.addGLEventListener(newTest);
-        testCase = newTest;
-        //animator.start();
-    }
-
-    public void addTestCase(ATestCase test) {
+    public void addTest(ATestCase test) {
         tests.add(test);
     }
 
-    public List<String> run(int miliSecPerTest) throws InterruptedException {
-        List<String> results = new ArrayList<String>(tests.size());
+    public void run(final int delay) {
+//        getNextTest().run(this);
 
-        /*
-        for(ATestCase test: tests) {
-            Thread t = new ScheduledTest(this, test);
-
-            long startTime = System.currentTimeMillis();
-            long endTime = startTime + miliSecPerTest;
-
-            t.start();
-
-            while (System.currentTimeMillis() < endTime) {
-                // Still within time threshHold, wait a little longer
-                try {
-                    Thread.sleep(500L);  // Sleep 1/2 second
-                } catch (InterruptedException e) {
-                    // Someone woke us up during sleep, that's OK
+        (new Thread() {
+            @Override
+            public void run() {
+                for( ATestCase test: tests) {
+                    ATestCase curTest = getNextTest();
+                    if(curTest != null) {
+                        curTest.run(Tester.this);
+                        try {
+                            Thread.sleep(delay);
+                            results.add(curTest.getResult() + "");
+                            test.dispose();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+
+                gui.setResults(results);
             }
+        }).start();
+    }
 
-            t.interrupt();  // Tell the thread to stop
-            t.join();       // Wait for the thread to cleanup and finish
 
-            results.add(((ScheduledTest) t).getResult());
-        }*/
+    private ATestCase getNextTest() {
+        if(++index < tests.size())
+            return tests.get(index);
 
-        for(ATestCase test: tests) {
-            Thread t = new ScheduledTest(this, test, miliSecPerTest);
-            //changeTestCase(test);
 
-            t.start();
-            t.join();
+        return null;
+    }
 
-            results.add(test.getResult());
-        }
-
-        frame.dispose();
+    public List<String> getResults() {
         return results;
     }
 }

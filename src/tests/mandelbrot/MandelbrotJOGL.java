@@ -1,19 +1,25 @@
 package tests.mandelbrot;
 
 
+import com.jogamp.opengl.util.Animator;
 import tests.ATestCase;
 import tests.Tester;
 import utils.FPSCounter;
 
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.*;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 
 public class MandelbrotJOGL extends ATestCase {
+    private  GLCanvas canvas;
+    private  Frame frame;
+    private  Animator animator;
     private boolean updateUniformVars = true;
     private int vertexShaderProgram;
     private int fragmentShaderProgram;
@@ -27,8 +33,7 @@ public class MandelbrotJOGL extends ATestCase {
 
 
     public MandelbrotJOGL(Tester tester) {
-        this.tester = tester;
-    }
+        this.tester = tester;}
 
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
@@ -160,7 +165,7 @@ public class MandelbrotJOGL extends ATestCase {
         //fpsStat.timerEnd();
 
         String s = String.format("AVG FPS: %4.1f using %s algorithm iterations", fpsCounter.getAvgFps(), settings.getIterations());
-        tester.setTitle(s);
+        frame.setTitle(s);
     }
 
     private void updateUniformVars(GL2 gl) {
@@ -182,5 +187,48 @@ public class MandelbrotJOGL extends ATestCase {
 
     public FPSCounter getFpsCounter() {
         return fpsCounter;
+    }
+
+
+
+    public void run(final Tester tester) {
+        GLProfile glp = GLProfile.getDefault();
+        GLCapabilities caps = new GLCapabilities(glp);
+
+        canvas = new GLCanvas(caps);
+        frame = new Frame("JOGL GPU BENCHMARK");
+        frame.setSize(500, 500);
+        frame.add(canvas);
+
+        canvas.addGLEventListener(this);
+
+        animator = new Animator();
+        animator.add(canvas);
+
+        frame.setVisible(true);
+        animator.start();
+
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        animator.stop();
+                        System.exit(0);
+                    }
+                }.start();
+            }
+        });
+    }
+
+    public void dispose() {
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                animator.stop();
+                frame.dispose();
+            }
+        }).start();
     }
 }
