@@ -11,6 +11,7 @@ public class Main {
     public static void main(String args[]) {
         Tester tester = new Tester();
 
+
         List<ATestCase> testCases = new ArrayList<ATestCase>();
         testCases.add(new SimpleScene());
         testCases.add(new MandelbrotJOGL(tester));
