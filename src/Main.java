@@ -1,3 +1,4 @@
+
 import tests.ATestCase;
 import tests.Tester;
 import tests.mandelbrot.MandelbrotJOGL;

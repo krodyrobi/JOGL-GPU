@@ -4,24 +4,26 @@ import javax.media.opengl.*;
 import tests.ATestCase;
 import utils.FPSCounter;
 
-public class SimpleScene extends ATestCase {
+
+public class SimpleScene extends ATestCase implements GLEventListener {
 
     private double theta = 0;
     private double s = 0;
     private double c = 0;
     private FPSCounter fpsCounter;
 
-
+    @Override
     public void display(GLAutoDrawable drawable) {
         update();
         render(drawable);
     }
 
-
+    @Override
     public void dispose(GLAutoDrawable drawable) {
     }
 
 
+    @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
 
