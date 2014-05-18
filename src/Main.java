@@ -20,6 +20,6 @@ public class Main {
 
         //}
 
-        tester.changeTestCase(testCases.get(2));
+        tester.changeTestCase(testCases.get(1));
     }
 }
