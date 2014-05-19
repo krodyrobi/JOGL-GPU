@@ -1,6 +1,9 @@
 package gui;
 
-import tests.ATestCase;
+
+import lib.joglutils.model.ModelFactory;
+import lib.joglutils.model.ModelLoadException;
+import lib.joglutils.model.geometry.Model;
 import tests.Tester;
 import tests.mandelbrot.MandelbrotJOGL;
 import tests.simple.SimpleScene;
@@ -21,9 +24,14 @@ public class Gui {
 
     protected JFrame frmUptGpuBenchmark;
 
-    private JTextArea textArea = new JTextArea();
-    private JTextArea textArea_1 = new JTextArea();
-    private JTextArea textArea_2 = new JTextArea();
+    private JTextArea textArea;
+    private JTextArea textArea_1;
+    private JTextArea textArea_2;
+    private JTextArea textArea_3;
+    private JButton btnGetSysInfo;
+
+    private boolean ranDxdiag;
+
     /**
      * Launch the application.
      */
@@ -43,13 +51,15 @@ public class Gui {
         frmUptGpuBenchmark = new JFrame();
         frmUptGpuBenchmark.setTitle("UPT GPU Benchmark");
         frmUptGpuBenchmark.setBounds(100, 100, 557, 300);
+        frmUptGpuBenchmark.setResizable(false);
         frmUptGpuBenchmark.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmUptGpuBenchmark.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
+
         JPanel panel_1 = new JPanel();
         panel_1.setBounds(215, 31, 323, 219);
-
         panel_1.setLayout(null);
+
 
         JLabel label = new JLabel("Test 1 : ");
         label.setBounds(20, 38, 64, 14);
@@ -68,22 +78,22 @@ public class Gui {
         panel_1.add(label_3);
 
         textArea = new JTextArea();
-        textArea.setBounds(94, 38, 157, 16);
+        textArea.setBounds(144, 38, 157, 16);
         panel_1.add(textArea);
 
         textArea_1 = new JTextArea();
-        textArea_1.setBounds(94, 63, 157, 16);
+        textArea_1.setBounds(144, 63, 157, 16);
         panel_1.add(textArea_1);
 
         textArea_2 = new JTextArea();
-        textArea_2.setBounds(94, 88, 157, 16);
+        textArea_2.setBounds(144, 88, 157, 16);
         panel_1.add(textArea_2);
 
         JLabel label_4 = new JLabel("System Info");
         label_4.setBounds(20, 118, 78, 14);
         panel_1.add(label_4);
 
-        final JTextArea textArea_3 = new JTextArea();
+        textArea_3 = new JTextArea();
         textArea_3.setBounds(20, 134, 281, 74);
         panel_1.add(textArea_3);
 
@@ -100,11 +110,19 @@ public class Gui {
 
                 tester.addTest(new SimpleScene());
                 tester.addTest(new MandelbrotJOGL(tester));
-                tester.addTest(new MonkeyTest(tester));
+
+                try {
+
+                    Model model = ModelFactory.createModel("src/models/monkey.obj");
+                    tester.addTest(new MonkeyTest(tester, model));
+                } catch (ModelLoadException ex) {
+                    ex.printStackTrace();
+                }
+
 
                 List<String> results = new ArrayList<String>(3);
 
-                tester.run(5000);
+                tester.run(30000);
             }
         });
         panel.setLayout(null);
@@ -112,11 +130,12 @@ public class Gui {
 
 
 
-        JButton btnGetSysInfo = new JButton("Get Sys Info");
+        btnGetSysInfo = new JButton("Get Sys Info");
         btnGetSysInfo.setBounds(57, 134, 104, 23);
         btnGetSysInfo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    ranDxdiag = true;
                     String dir = System.getProperty("java.io.tmpdir");
                     String filePath = dir + "diag.txt";
                     System.out.println(filePath);
@@ -157,32 +176,8 @@ public class Gui {
         });
         panel.add(btnGetSysInfo);
 
-        JButton btnSubmit = new JButton("Submit");
-        btnSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                File f = new File("./result.txt");
-                PrintWriter writer =  null ;
 
-                try{
-                    writer = new PrintWriter("./result.txt", "UTF-8");
-
-                    writer.println(textArea_3.getText());
-                    writer.close();
-                    // writer.write(textArea_1.getText());
-                    // writer.write(textArea_2.getText());
-                    writer.write(textArea_3.getText());
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                System.out.println(textArea_3.getText());
-            }
-        });
-        btnSubmit.setBounds(57, 199, 76, 23);
-        panel.add(btnSubmit);
         panel.add(panel_1);
-
 
         JLabel lblUptGpuBenchmark = new JLabel("UPT GPU Benchmark");
         lblUptGpuBenchmark.setFont(new Font("Modern No. 20", Font.PLAIN, 16));
@@ -196,5 +191,27 @@ public class Gui {
         textArea.setText(results.get(0));
         textArea_1.setText(results.get(1));
         textArea_2.setText(results.get(2));
+
+        if(!ranDxdiag) {
+            btnGetSysInfo.doClick();
+        }
+
+
+        double r1 = (results.get(0) == null) ? 0 : Double.parseDouble(results.get(0));
+        double r2 = (results.get(1) == null) ? 0 : Double.parseDouble(results.get(1));
+        double r3 = (results.get(2) == null) ? 0 : Double.parseDouble(results.get(2));
+
+
+        double result = (r1 + r2 * 100 + r3 * 1000) / 3;
+
+
+        String output = "";
+        output += "Your final score is ";
+        output += String.format("%10.1f \n", result);
+        output += "Please send the results to krody.robi@gmail.com \n\n";
+        output += "ALONG WITH THE SYSTEM SPECS :D.";
+
+
+        JOptionPane.showMessageDialog(frmUptGpuBenchmark, output);
     }
 }

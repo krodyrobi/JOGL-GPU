@@ -52,8 +52,6 @@ public class MandelbrotJOGL extends ATestCase {
         }
 
         fpsCounter = new FPSCounter(drawable, 12);
-        anim.start();
-        System.out.println("Loaded mandelbrot test");
     }
 
     @Override
@@ -164,8 +162,10 @@ public class MandelbrotJOGL extends ATestCase {
         gl2.glFlush();
         //fpsStat.timerEnd();
 
-        String s = String.format("AVG FPS: %4.1f using %s algorithm iterations", fpsCounter.getAvgFps(), settings.getIterations());
+        double avgFps = fpsCounter.getAvgFps();
+        String s = String.format("AVG FPS: %4.1f using %s algorithm iterations", avgFps, settings.getIterations());
         frame.setTitle(s);
+        result = String.valueOf(avgFps);
     }
 
     private void updateUniformVars(GL2 gl) {
@@ -207,6 +207,7 @@ public class MandelbrotJOGL extends ATestCase {
 
         frame.setVisible(true);
         animator.start();
+        anim.start();
 
 
         frame.addWindowListener(new WindowAdapter() {

@@ -35,7 +35,8 @@ public class Tester {
                         curTest.run(Tester.this);
                         try {
                             Thread.sleep(delay);
-                            results.add(curTest.getResult() + "");
+                            //                            results.add(curTest.getResult() + "");
+                            results.add(curTest.getResult());
                             test.dispose();
                         } catch (InterruptedException e) {
                             e.printStackTrace();

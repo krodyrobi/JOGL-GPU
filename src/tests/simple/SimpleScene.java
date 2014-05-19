@@ -43,9 +43,7 @@ public class SimpleScene extends ATestCase implements GLEventListener {
     @Override
     public void init(GLAutoDrawable drawable) {
         GL2 gl2 = drawable.getGL().getGL2();
-        System.out.println("init");
 
-        System.out.println("Loaded simple test");
         //Remove innate frameRate cap VSync
         gl2.setSwapInterval(0);
 
@@ -81,7 +79,7 @@ public class SimpleScene extends ATestCase implements GLEventListener {
         gl.glEnd();
 
         fpsCounter.draw();
-        result = "" + fpsCounter.getAvgFps();
+        result = String.valueOf( fpsCounter.getAvgFps());
 
         gl.glFlush();
     }
@@ -103,8 +101,6 @@ public class SimpleScene extends ATestCase implements GLEventListener {
         canvas.addGLEventListener(this);
         frame.setVisible(true);
         animator.start();
-
-        System.out.println("Simplescene");
 
 
         frame.addWindowListener(new WindowAdapter() {

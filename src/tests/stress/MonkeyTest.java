@@ -32,8 +32,9 @@ public class MonkeyTest extends ATestCase {
     private float[] lightDiffuse = {0.5f, 0.5f, 0.5f, 1.0f};
     private float[] lightSpecular = {0.5f, 0.5f, 0.5f, 1.0f};
 
-    public MonkeyTest(Tester tester) {
+    public MonkeyTest(Tester tester, Model model) {
         this.tester = tester;
+        this.model = model;
     }
 
     @Override
@@ -43,20 +44,15 @@ public class MonkeyTest extends ATestCase {
 
 
         modelRenderer = DisplayListRenderer.getInstance();
+        modelRenderer.debug(false);
 
-        try {
-            model = ModelFactory.createModel("src/models/monkey.obj");
+        model.centerModelOnPosition(true);
+        model.setUseTexture(true);
+        model.setRenderModelBounds(false);
+        model.setRenderObjectBounds(false);
+        model.setUnitizeSize(true);
 
-            model.centerModelOnPosition(true);
-            model.setUseTexture(true);
-            model.setRenderModelBounds(false);
-            model.setRenderObjectBounds(false);
-            model.setUnitizeSize(true);
-
-            float radius = model.getBounds().getRadius();
-        } catch (ModelLoadException e) {
-            e.printStackTrace();
-        }
+        float radius = model.getBounds().getRadius();
 
 
         // Set the light
@@ -87,10 +83,9 @@ public class MonkeyTest extends ATestCase {
         //Remove innate frameRate cap VSync
         gl2.setSwapInterval(0);
 
-        //make fps counter update every 20 frames
-        drawable.getAnimator().setUpdateFPSFrames(20, null);
+        //make fps counter update every 2 frames
+        drawable.getAnimator().setUpdateFPSFrames(2, null);
         fpsCounter = new FPSCounter(drawable, 12);
-        System.out.println("Loaded monkey test");
     }
 
 
@@ -121,8 +116,9 @@ public class MonkeyTest extends ATestCase {
         gl.glFlush();
 
         //fpsCounter.draw();
-        result = "" + fpsCounter.getAvgFps();
-        frame.setTitle("FPS: " + fpsCounter.getAvgFps() + " tri: " + model.getMesh(0).faces.length);
+        double avgFps = fpsCounter.getAvgFps();
+        frame.setTitle(String.format("AVG FPS: %4.1f tri: %d ", fpsCounter.getAvgFps(), model.getMesh(0).faces.length));
+        result = String.valueOf(avgFps);
     }
 
     private void update(GLAutoDrawable drawable) {
@@ -163,10 +159,6 @@ public class MonkeyTest extends ATestCase {
         canvas.addGLEventListener(this);
         frame.setVisible(true);
         animator.start();
-
-
-
-        System.out.println("Simplescene");
 
 
         frame.addWindowListener(new WindowAdapter() {

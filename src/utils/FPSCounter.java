@@ -128,7 +128,6 @@ public class FPSCounter {
 
     public double getAvgFps() {
         GLAnimatorControl anim = drawable.getAnimator();
-
         return anim.getTotalFPS();
     }
 }

@@ -1,3 +1,25 @@
 Manifest-Version: 1.0
-Main-Class: tests.simple.SimpleScene
+Class-Path: gluegen-rt-2.1.5-01-natives-solaris-i586.jar jocl-2.1.5-01
+ -natives-linux-armv6.jar jogl-all-2.1.5-01-natives-linux-i586.jar glu
+ egen-rt-2.1.5-01-natives-linux-amd64.jar gluegen-rt-2.1.5-01-natives-
+ linux-armv6.jar jogl-all-2.1.5-01-natives-windows-i586.jar jocl-2.1.5
+ -01.jar gluegen-rt-2.1.5-01.jar jocl-2.1.5-01-natives-solaris-i586.ja
+ r jocl-2.1.5-01-natives-android-armv6.jar jogl-all-2.1.5-01-natives-l
+ inux-amd64.jar jogl-all-2.1.5-01-natives-linux-armv6hf.jar gluegen-rt
+ -main-2.1.5-01.jar jocl-2.1.5-01-natives-linux-i586.jar gluegen-rt-2.
+ 1.5-01-natives-macosx-universal.jar jogl-all-2.1.5-01-natives-solaris
+ -amd64.jar jogl-all-2.1.5-01.jar gluegen-rt-2.1.5-01-natives-linux-ar
+ mv6hf.jar jocl-2.1.5-01-natives-windows-i586.jar jocl-2.1.5-01-native
+ s-linux-amd64.jar jocl-2.1.5-01-natives-macosx-universal.jar gluegen-
+ rt-2.1.5-01-natives-linux-i586.jar jogl-all-2.1.5-01-natives-solaris-
+ i586.jar gluegen-rt-2.1.5-01-natives-windows-i586.jar jogl-all-2.1.5-
+ 01-natives-linux-armv6.jar joal-2.1.5-01.jar gluegen-rt-2.1.5-01-nati
+ ves-windows-amd64.jar gluegen-rt-2.1.5-01-natives-android-armv6.jar g
+ luegen-rt-2.1.5-01-natives-solaris-amd64.jar jocl-2.1.5-01-natives-wi
+ ndows-amd64.jar jogl-all-main-2.1.5-01.jar jocl-2.1.5-01-natives-sola
+ ris-amd64.jar jogl-all-2.1.5-01-natives-android-armv6.jar jocl-2.1.5-
+ 01-natives-linux-armv6hf.jar jocl-main-2.1.5-01.jar jogl-all-2.1.5-01
+ -natives-macosx-universal.jar jogl-all-2.1.5-01-natives-windows-amd64
+ .jar
+Main-Class: Main
 
