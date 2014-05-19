@@ -440,13 +440,4 @@ public class WaveFrontLoader implements iLoader {
         
         return color;
     }
-    
-    public static void main(String[] args) {
-        WaveFrontLoader loader = new WaveFrontLoader();
-        try {
-            loader.load("C:\\Documents and Settings\\RodgersGB\\My Documents\\Projects\\JOGLUTILS\\src\\net\\java\\joglutils\\examples\\models\\obj\\penguin.obj");
-        } catch (ModelLoadException ex) {
-            ex.printStackTrace();
-        }
-    }
 }

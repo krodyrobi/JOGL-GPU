@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,8 +114,8 @@ public class Gui {
                 tester.addTest(new MandelbrotJOGL(tester));
 
                 try {
-
-                    Model model = ModelFactory.createModel("src/models/monkey.obj");
+                    String path = new File("").getAbsolutePath();
+                    Model model = ModelFactory.createModel(path + "/models/monkey.obj");
                     tester.addTest(new MonkeyTest(tester, model));
                 } catch (ModelLoadException ex) {
                     ex.printStackTrace();
